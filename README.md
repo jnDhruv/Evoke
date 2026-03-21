@@ -103,8 +103,75 @@ Compensation = Average hourly wage × Hours lost to disruption
 
 ### 1. Data Sources & Integrations
 
-1. Weather API:
-2. **Traffic API:**
+1. Weather API: **OpenWeatherMap**
+    
+    Example response :
+    
+    ```json
+    {
+      "coord": {
+        "lon": 73.1812,
+        "lat": 22.3072
+      },
+      "weather": [
+        {
+          "id": 500,
+          "main": "Rain",
+          "description": "light rain"
+        }
+      ],
+      "main": {
+        "temp": 32.5,
+        "feels_like": 35.1,
+        "humidity": 68,
+        "pressure": 1008
+      },
+      "visibility": 6000,
+      "wind": {
+        "speed": 5.2
+      },
+      "rain": {
+        "1h": 3.5
+      },
+      "name": "Vadodara"
+    }
+    ```
+    
+2. Traffic API: **Google Distance Matrix**
+    
+    Example response :
+    
+    ```json
+    {
+      "destination_addresses": ["Mumbai, Maharashtra, India"],
+      "origin_addresses": ["Bandra, Mumbai, Maharashtra, India"],
+      "rows": [
+        {
+          "elements": [
+            {
+              "distance": {
+                "text": "8.4 km",
+                "value": 8400
+              },
+              "duration": {
+                "text": "28 mins",
+                "value": 1680
+              },
+              "duration_in_traffic": {
+                "text": "45 mins",
+                "value": 2700
+              },
+              "status": "OK"
+            }
+          ]
+        }
+      ],
+      "status": "OK"
+    }
+    ```
+    
+    > All location inputs are normalized from PIN code to latitude–longitude before querying external APIs to ensure higher spatial accuracy.
+    > 
 3. RSS feed: 
     - Times of India RSS — `https://timesofindia.indiatimes.com/rss.cms`
     - NDTV RSS — `https://feeds.feedburner.com/ndtvnews-top-stories`
@@ -136,7 +203,6 @@ Compensation = Average hourly wage × Hours lost to disruption
       "historical_delivery_pincodes": ["400051", "400052", "400049"]
     }
     ```
-    
 
 ### **2. NLP Model — Social Disruption Score**
 
