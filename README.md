@@ -170,73 +170,77 @@ The index model runs every 15 minutes, combining inputs from three real-time sou
 | Light rain / normal temp / low AQI | Below warning levels | 0.0 – 0.3 |
 | Moderate rain / high temp / moderate AQI | Approaching limits | 0.4 – 0.6 |
 | Heavy rain >50mm / temp >42°C / AQI >300 | Exceeds safe limits | 0.7 – 1.0 |
-- Detailed Calculation of Weather Score
-    - Rain_Intensity: Score (0–0.30)
-        
-        ```jsx
-        function rainScore(rain_mm_per_hr) {
-          if (!rain_mm_per_hr) return 0;
-          if (rain_mm_per_hr < 2) return 0.10;
-          if (rain_mm_per_hr < 7) return 0.20;
-          return 0.30;
-        }
-        ```
-        
-    - Temperature: Score (0–0.15)
-        
-        ```jsx
-        function tempScore(temp) {
-          if (temp >= 20 && temp <= 30) return 0;
-          if (temp > 30 && temp <= 38) return 0.8;
-          if (temp > 38) return 0.15;
-          if (temp < 10) return 0.10;
-          return 5;
-        }
-        ```
-        
-    - Wind_Speed: Score (0–0.15)
-        
-        ```jsx
-        function windScore(kmh) {
-          if (kmh < 10) return 0;
-          if (kmh < 25) return 0.5;
-          if (kmh < 40) return 0.10;
-          return 0.15;
-        }
-        ```
-        
-    - Visibility: Score (0–0.15)
-        
-        ```jsx
-        function visibilityScore(vis) {
-          if (vis > 8000) return 0;
-          if (vis > 4000) return 0.5;
-          if (vis > 1000) return 0.10;
-          return 0.15;
-        }
-        ```
-        
-    - Extreme_Conditions: Score (0–0.15)
-        
-        ```jsx
-        function extremeScore(weatherMain) {
-          if (weatherMain.includes("Thunderstorm")) return 0.10;
-          if (weatherMain.includes("Extreme")) return 0.15;
-          return 0;
-        }
-        ```
-        
-    - Road_Condition: Score (0–0.1)
-        
-        Derived: Use **past 3–6 hours rain**
-        
-        ```jsx
-        function roadScore(rainLastHours) {
-          if (rainLastHours === 0) return 0; // dry road
-          if (rainLastHours < 10) return 0.5;  // wet
-          return 0.10;  // probably water logged
-        }
-        ```
+<details>
+<summary>Detailed Calculation of Weather Score</summary>
+
+- Rain_Intensity: Score (0–0.30)
+
+  ```jsx
+  function rainScore(rain_mm_per_hr) {
+    if (!rain_mm_per_hr) return 0;
+    if (rain_mm_per_hr < 2) return 0.10;
+    if (rain_mm_per_hr < 7) return 0.20;
+    return 0.30;
+  }
+  ```
+
+- Temperature: Score (0–0.15)
+
+  ```jsx
+  function tempScore(temp) {
+    if (temp >= 20 && temp <= 30) return 0;
+    if (temp > 30 && temp <= 38) return 0.08;
+    if (temp > 38) return 0.15;
+    if (temp < 10) return 0.10;
+    return 5;
+  }
+  ```
+
+- Wind_Speed: Score (0–0.15)
+
+  ```jsx
+  function windScore(kmh) {
+    if (kmh < 10) return 0;
+    if (kmh < 25) return 0.05;
+    if (kmh < 40) return 0.10;
+    return 0.15;
+  }
+  ```
+
+- Visibility: Score (0–0.15)
+
+  ```jsx
+  function visibilityScore(vis) {
+    if (vis > 8000) return 0;
+    if (vis > 4000) return 0.05;
+    if (vis > 1000) return 0.10;
+    return 0.15;
+  }
+  ```
+
+- Extreme_Conditions: Score (0–0.15)
+
+  ```jsx
+  function extremeScore(weatherMain) {
+    if (weatherMain.includes("Thunderstorm")) return 0.10;
+    if (weatherMain.includes("Extreme")) return 0.15;
+    return 0;
+  }
+  ```
+
+- Road_Condition: Score (0–0.10)
+
+  Derived using **past 3–6 hours rain**
+
+  ```jsx
+  function roadScore(rainLastHours) {
+    if (rainLastHours === 0) return 0; // dry road
+    if (rainLastHours < 10) return 0.05;  // wet
+    return 0.10;  // probably water logged
+  }
+  ```
+</details>
+
         
 
 #### **Traffic score (using Traffic API)**
