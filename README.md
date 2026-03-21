@@ -528,6 +528,25 @@ These three together eliminate the majority of fraudulent claims without any ded
 
 **Duplicate claim prevention :** A rider can only receive one payout per disruption event per day. Even if multiple zones they operate in are flagged simultaneously, the system calculates one combined payout — preventing double dipping.
 
+### MARKET CRASH SCENARIO: How we counter it?
+
+#### GPS Spoofing
+
+We never ask the rider where they are. Disruption triggers come entirely from external APIs — weather, traffic, and RSS. The system decides which zones are affected, not the rider. Spoofing your location changes nothing.
+
+#### Group claiming
+
+Even if multiple riders collude to claim for the same zone, every claim is cross-checked against two independent signals:
+
+- Was the rider's app active during the disruption window?
+- Do they have a documented history of delivering in that zone?
+
+Both checks must pass independently. Shared zone, shared story — doesn't matter. Fake app history and months of delivery location data cannot be manufactured.
+
+#### The key principle
+
+A rider never initiates a claim. The system finds them — and only if the data supports it.
+
 ## Platform Choice
 
 DASH is designed as a **Progressive Web App (PWA)** rather than a native mobile application.
@@ -583,8 +602,6 @@ Includes:
 **Outcome:**
 
 Dynamic weekly premium + **zero-touch claim** eligibility workflow.
-
----
 
 ### **Phase 3 — Polish & Scale**
 
