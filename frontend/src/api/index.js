@@ -19,3 +19,12 @@ export const getPayouts = (riderId) =>
 
 export const runCompensationEngine = () =>
   API.post("/api/payouts/run-engine").then((r) => r.data);
+
+// Simulate a disruption for demo: flags pincode 400051 with a high score
+export const simulateDisruption = async () => {
+  // First hit the zone score endpoint to generate a real flag entry
+  const zoneData = await getZoneScore("400051");
+  // Then run the compensation engine so riders get paid
+  const engineResult = await runCompensationEngine();
+  return { zoneData, engineResult };
+};
